@@ -10,7 +10,7 @@ interface NotesState {
     activeColor: string;
     tags: string[];
     selectedTag?: string;
-    filteredNotes: NoteType[]; 
+    filteredNotes: NoteType[];
 }
 
 // 모든 노트로부터 유니크한 태그들을 추출하는 함수입니다.
@@ -53,10 +53,8 @@ const notesSlice = createSlice({
         },
         selectTag: (state, action: PayloadAction<string>) => {
             state.selectedTag = action.payload;
-            const allNotes = [...state.items, ...state.archivedItems]
-            state.filteredNotes = allNotes.filter(note => 
-                note.tags?.includes(action.payload)
-            );
+            const allNotes = [...state.items, ...state.archivedItems];
+            state.filteredNotes = allNotes.filter((note) => note.tags?.includes(action.payload));
         },
         togglePinNote: (state, action: PayloadAction<string>) => {
             const note = state.items.find((note) => note.id === action.payload);
@@ -72,7 +70,7 @@ const notesSlice = createSlice({
                 const [note] = state.items.splice(index, 1);
                 state.trash = state.trash || []; // trash 배열이 정의되지 않았을 경우를 대비하여 기본값 설정
                 state.trash.push(note);
-            } else if (archivedIndex !== -1){
+            } else if (archivedIndex !== -1) {
                 state.archivedItems.splice(archivedIndex, 1);
             }
             state.tags = regenerateTags(state.items);
@@ -102,25 +100,25 @@ const notesSlice = createSlice({
         archiveNote: (state, action: PayloadAction<string>) => {
             const index = state.items.findIndex((note) => note.id === action.payload);
             const archivedIndex = state.archivedItems.findIndex((note) => note.id === action.payload);
-          
+
             if (index !== -1) {
-              const note = state.items[index];
-              // 노트를 아카이브 상태로 전환
-              note.isArchived = true;
-              // archivedItems가 없으면 배열을 만들어줘야 한다.
-              if (!state.archivedItems) {
-                state.archivedItems = [];
-              }
-              const [archivedNote] = state.items.splice(index, 1);
-              state.archivedItems.push(archivedNote);
+                const note = state.items[index];
+                // 노트를 아카이브 상태로 전환
+                note.isArchived = true;
+                // archivedItems가 없으면 배열을 만들어줘야 한다.
+                if (!state.archivedItems) {
+                    state.archivedItems = [];
+                }
+                const [archivedNote] = state.items.splice(index, 1);
+                state.archivedItems.push(archivedNote);
             } else if (archivedIndex !== -1) {
-              const note = state.archivedItems[archivedIndex];
-              // 노트의 아카이브 상태를 해제
-              note.isArchived = false;
-              state.items.push(...state.archivedItems.splice(archivedIndex, 1));
+                const note = state.archivedItems[archivedIndex];
+                // 노트의 아카이브 상태를 해제
+                note.isArchived = false;
+                state.items.push(...state.archivedItems.splice(archivedIndex, 1));
             }
             state.tags = regenerateTags([...state.items, ...state.archivedItems]);
-          },
+        },
     },
 });
 

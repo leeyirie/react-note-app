@@ -1,9 +1,9 @@
 .tagged-page p {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 20px;
-  color: hsl(209, 19%, 45%);
-  padding: 0px;
-  margin-left: 25px;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: hsl(209, 19%, 45%);
+    padding: 0px;
+    margin-left: 25px;
 }
